@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.17)
 project(readers_and_writers VERSION 0.1.0)
 
 include(CTest)
 enable_testing()
 
-add_executable(readers_and_writers main.cpp)
+add_executable(readers_and_writers src/main.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
