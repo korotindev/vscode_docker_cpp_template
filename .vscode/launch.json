@@ -5,13 +5,13 @@
             "name": "Launch Main",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/test-project/main.out",
+            "program": "${workspaceFolder}/build/readers_and_writers",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/test-project",
+            "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
-            "MIMode": "gdb",
+            "MIMode": "lldb",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",

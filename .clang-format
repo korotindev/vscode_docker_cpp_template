@@ -1,5 +1,6 @@
 ---
 Language:        Cpp
+Standard: Auto
 # BasedOnStyle:  LLVM
 AccessModifierOffset: -2
 AlignAfterOpenBracket: Align

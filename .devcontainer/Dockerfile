@@ -8,7 +8,7 @@
 # * Compose but has been included here for completeness.   *
 # **********************************************************
 
-FROM debian:10
+FROM ubuntu:20.04
 
 # This Dockerfile adds a non-root user with sudo access. Use the "remoteUser"
 # property in devcontainer.json to use it. On Linux, the container user's GID/UIDs
@@ -33,15 +33,25 @@ RUN apt-get update \
     && curl -sSL  ${COMMON_SCRIPT_SOURCE} -o /tmp/common-setup.sh \
     && ([ "${COMMON_SCRIPT_SHA}" = "dev-mode" ] || (echo "${COMMON_SCRIPT_SHA} */tmp/common-setup.sh" | sha256sum -c -)) \
     && /bin/bash /tmp/common-setup.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" \
-    && rm /tmp/common-setup.sh \
-    #
-    # *********************************************************************
-    # * Uncomment this section to use RUN to install other dependencies.  *
-    # * See https://aka.ms/vscode-remote/containers/dockerfile-run        *
-    # *********************************************************************
-    && apt-get -y install --no-install-recommends build-essential cmake cppcheck valgrind \
-    #
-    # Clean up
-    && apt-get autoremove -y \
+    && rm /tmp/common-setup.sh
+
+# install project deps
+
+ARG CMAKE_SCRIPT_SOURCE="https://github.com/Kitware/CMake/releases/download/v3.17.3/cmake-3.17.3-Linux-x86_64.sh"
+
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && wget -q -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
+    && apt-get update \
+    && apt-get -y install --no-install-recommends build-essential cmake valgrind cppcheck \
+    clang-10 clang-tools-10 clang-10-doc libclang-common-10-dev libclang-10-dev libclang1-10 clang-format-10 clangd-10 
+
+# clean up
+RUN apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
+
+ARG CC=clang
+ARG CXX=clang++
+
+ENV CC ${CC}
+ENV CXX ${CXX}
