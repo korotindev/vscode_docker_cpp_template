@@ -2,7 +2,8 @@
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "files.associations": {
         "vector": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "iosfwd": "cpp"
     },
     "c-cpp-flylint.flexelint.enable": false,
     "c-cpp-flylint.clang.executable": "clang-10",

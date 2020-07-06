@@ -12,13 +12,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 include (cmake/cppcheck.cmake)
 include (cmake/clang-format.cmake)
 
-include(CTest)
-enable_testing()
+add_custom_target(
+        run
+        COMMAND bin/freq
+        ../test_data/in.txt
+        ../test_data/out.txt
+)
 
 add_executable(freq src/main.cpp)
 target_compile_features(freq PUBLIC cxx_std_20)
-
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
-
