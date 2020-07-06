@@ -1,10 +1,10 @@
-#include <filesystem>
+#include <cctype>
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
-#include <cctype>
 
 using namespace std;
 
@@ -28,10 +28,9 @@ void static print_wrong_output_error(ostream &out) {
   print_run_help(out);
 }
 
-vector<pair<size_t, string>> static calculate_stats(ifstream &input) {
-  vector<pair<size_t, string>> result;
-  unordered_map<string, size_t> prepared_stats;
-  
+vector<string> static read_whole_input(ifstream &input) {
+  vector<string> result;
+
   string current_word;
 
   while (!input.eof()) {
@@ -40,21 +39,37 @@ vector<pair<size_t, string>> static calculate_stats(ifstream &input) {
       current_word.push_back(sym);
     } else {
       if (!current_word.empty()) {
-        prepared_stats[current_word]++;
+        result.push_back(move(current_word));
       }
       current_word.clear();
     }
   }
 
   if (!current_word.empty()) {
-    prepared_stats[current_word]++;
+    result.push_back(move(current_word));
   }
+
+  return result; // NVRO
+}
+
+vector<pair<size_t, string_view>> static calculate_stats(const vector<string> &words) {
+  unordered_map<string_view, size_t> prepared_stats;
+
+  for (auto &word : words) {
+    prepared_stats[word]++;
+  }
+
+  vector<pair<size_t, string_view>> result;
 
   transform(
       prepared_stats.begin(), prepared_stats.end(), back_inserter(result),
       [](const auto &item) { return make_pair(item.second, item.first); });
 
-  sort(result.begin(), result.end(), greater<>());
+  sort(result.begin(), result.end(), [](const auto &lhs, const auto &rhs){
+    // sort DESC in first column 
+    // sort DESC in second column
+    return make_pair(lhs.first, rhs.second) > make_pair(rhs.first, lhs.second);
+  });
 
   return result; // NRVO
 }
@@ -66,11 +81,6 @@ int main(int argc, char **argv) {
   }
 
   string input_filename = argv[1], output_filename = argv[2];
-
-  if (!filesystem::exists(input_filename)) {
-    print_wrong_input_error(cout);
-    return 0;
-  }
 
   ifstream in(input_filename.c_str());
 
@@ -86,7 +96,8 @@ int main(int argc, char **argv) {
     return 0;
   }
 
-  auto stats = calculate_stats(in);
+  auto words = read_whole_input(in);
+  auto stats = calculate_stats(words);
 
   for (auto &[count, word] : stats) {
     out << count << " " << word << "\n";
