@@ -35,7 +35,7 @@ vector<pair<size_t, string>> static calculate_stats(ifstream &input) {
   string current_word;
 
   while (!input.eof()) {
-    char sym = tolower(input.get());
+    char sym = static_cast<char>(tolower(input.get()));
     if ('a' <= sym && sym <= 'z') {
       current_word.push_back(sym);
     } else {
