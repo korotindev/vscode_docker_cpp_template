@@ -1,19 +1,5 @@
-#-------------------------------------------------------------------------------------------------------------
-# Copyright (c) Microsoft Corporation. All rights reserved.
-# Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
-#-------------------------------------------------------------------------------------------------------------
-
-# **********************************************************
-# * Note: Using a Dockerfile is optional when using Docker *
-# * Compose but has been included here for completeness.   *
-# **********************************************************
-
 FROM ubuntu:20.04
 
-# This Dockerfile adds a non-root user with sudo access. Use the "remoteUser"
-# property in devcontainer.json to use it. On Linux, the container user's GID/UIDs
-# will be updated to match your local UID/GID (when using the dockerFile property).
-# See https://aka.ms/vscode-remote/containers/non-root-user for details.
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
@@ -36,7 +22,6 @@ RUN apt-get update \
     && rm /tmp/common-setup.sh
 
 # install project deps
-
 ARG CMAKE_SCRIPT_SOURCE="https://github.com/Kitware/CMake/releases/download/v3.17.3/cmake-3.17.3-Linux-x86_64.sh"
 
 RUN export DEBIAN_FRONTEND=noninteractive \
@@ -50,8 +35,11 @@ RUN apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-ARG CC=clang
-ARG CXX=clang++
+ARG CC=clang-10
+ARG CXX=clang++-10
 
 ENV CC ${CC}
 ENV CXX ${CXX}
+
+RUN mkdir -p /home/${USERNAME}/app
+WORKDIR /home/${USERNAME}/app
