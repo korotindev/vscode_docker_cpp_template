@@ -5,7 +5,7 @@
             "name": "Launch Main",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/readers_and_writers",
+            "program": "${workspaceFolder}/build/freq",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
