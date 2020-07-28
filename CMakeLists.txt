@@ -4,7 +4,7 @@ project(freq VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -pedantic")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=thread -O2 -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=thread -g")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -12,15 +12,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 include (cmake/cppcheck.cmake)
 include (cmake/clang-format.cmake)
-
-add_compile_definitions(READERS_COUNT=4)
-add_compile_definitions(WRITERS_COUNT=4)
-add_compile_definitions(MAX_READER_LATENCY_MS=1)
-add_compile_definitions(MAX_WRITER_LATENCY_MS=1)
-add_compile_definitions(READER_ITERATIONS_COUNT=10)
-add_compile_definitions(WRITER_ITERATIONS_COUNT=10)
-add_compile_definitions(REPEATS_COUNT=1)
-
 
 add_custom_target(run COMMAND bin/freq)
 
