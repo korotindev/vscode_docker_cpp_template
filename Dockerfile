@@ -29,6 +29,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && wget -q -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
     && apt-get update \
     && apt-get -y install --no-install-recommends build-essential cmake valgrind cppcheck gdb \
+    clang-10 clang-tools-10 clang-10-doc libclang-common-10-dev libclang-10-dev libclang1-10 clang-format-10 clangd-10 libc++-10-dev libc++abi-10-dev \
     && apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
