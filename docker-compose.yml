@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile  
     volumes:
       - .:/home/vscode/app:cached
+      - ~/.ssh:/home/vscode/.ssh
+      - ~/.gitconfig:/home/vscode/.gitconfig
     cap_add:
       - SYS_PTRACE
     security_opt:
