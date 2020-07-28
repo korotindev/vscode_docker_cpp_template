@@ -3,7 +3,19 @@
     "files.associations": {
         "vector": "cpp",
         "iostream": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "chrono": "cpp",
+        "random": "cpp",
+        "limits": "cpp",
+        "algorithm": "cpp",
+        "thread": "cpp",
+        "*.tcc": "cpp",
+        "shared_mutex": "cpp",
+        "functional": "cpp",
+        "array": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "utility": "cpp"
     },
     "c-cpp-flylint.flexelint.enable": false,
     "c-cpp-flylint.clang.executable": "clang-10",
