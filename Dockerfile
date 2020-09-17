@@ -35,8 +35,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-ARG CC=clang-10
-ARG CXX=clang-10
+ARG CC=gcc
+ARG CXX=g++
 
 ENV CC ${CC}
 ENV CXX ${CXX}

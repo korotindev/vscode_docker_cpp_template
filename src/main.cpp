@@ -49,7 +49,8 @@ class Domain {
 public:
   explicit Domain(string_view text) {
     vector<string_view> parts = Split(text, ".");
-    parts_reversed_.assign(rbegin(parts), rend(parts));
+    parts_reversed_.reserve(parts.size());
+    parts_reversed_.assign(parts.rbegin(), parts.rend());
   }
 
   size_t GetPartCount() const {
@@ -71,7 +72,7 @@ bool IsSubdomain(const Domain& subdomain, const Domain& domain) {
   return
       subdomain.GetPartCount() >= domain.GetPartCount()
       && equal(begin(domain_reversed_parts), end(domain_reversed_parts),
-               end(subdomain_reversed_parts));
+               begin(subdomain_reversed_parts));
 }
 
 bool IsSubOrSuperDomain(const Domain& lhs, const Domain& rhs) {
@@ -85,7 +86,7 @@ class DomainChecker {
 public:
   template <typename InputIt>
   DomainChecker(InputIt domains_begin, InputIt domains_end) {
-    sorted_domains_.resize(distance(domains_begin, domains_end));
+    sorted_domains_.reserve(distance(domains_begin, domains_end));
     for (const Domain& domain : Range(domains_begin, domains_end)) {
       sorted_domains_.push_back(&domain);
     }
@@ -95,11 +96,11 @@ public:
 
   // Check if candidate is subdomain of some domain
   bool IsSubdomain(const Domain& candidate) const {
-    const auto it = upper_bound(
+    auto it = upper_bound(
         begin(sorted_domains_), end(sorted_domains_),
         &candidate, IsDomainLess);
-    if (it == begin(sorted_domains_)) {
-      return false;
+    if (it != begin(sorted_domains_)) {
+      it--;
     }
     return ::IsSubdomain(candidate, **it);
   }
